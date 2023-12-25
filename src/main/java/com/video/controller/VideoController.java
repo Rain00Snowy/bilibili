@@ -201,8 +201,8 @@ public class VideoController {
         }
     }
 
-    @RequestMapping("videoPlay")
-    public MsgResponse videoPlay(Long videoId,HttpSession session) throws IOException {
+    @RequestMapping("/videoPlay/{videoId}")
+    public MsgResponse videoPlay(@PathVariable Long videoId,HttpSession session) throws IOException {
 //        TUser sUser = (TUser)session.getAttribute("user");
         TUser sUser = new TUser();
         sUser.setUserId(15L);
@@ -223,7 +223,6 @@ public class VideoController {
                     if(tmpUser.getLevel() < videoLevel){
                         //等级限制不能看
                         return MsgResponse.fail("等级不够");
-
                     }
                 }
                 // 增加观看次数
