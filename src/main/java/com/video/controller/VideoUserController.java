@@ -37,10 +37,13 @@ public class VideoUserController {
 
 
     @RequestMapping("UEditorUser")
-    public String UEditorUser(HttpSession session, TUser tUser, String preEncryptedProblem) {
-        if (tUser.getEncryptedProblem().equals(preEncryptedProblem)) {
-            return "errorMsg 当前密保不是最新密保";
-        }
+    public String UEditorUser(HttpSession session,
+                              @RequestBody TUser tUser
+//                            ,@RequestParam String preEncryptedProblem
+    ) {
+//        if (tUser.getEncryptedProblem().equals(preEncryptedProblem)) {
+//            return "errorMsg 当前密保不是最新密保";
+//        }
         session.removeAttribute("user");
         tUser.setIconUrl(userService.getUserByUserId(tUser.getUserId()).getIconUrl());
         session.setAttribute("user", tUser);
@@ -49,17 +52,12 @@ public class VideoUserController {
         return "更改成功";
     }
 
-    @RequestMapping("getUserById/{userId}")
-    public MsgResponse getUserById(@PathVariable Long userId){
-        try {
+    @RequestMapping("/getUserById/{userId}")
+    public TUser getUserById(@PathVariable Long userId){
             TUser user=userService.getUserByUserId(userId);
             if(user==null)
-                return MsgResponse.fail("用户不存在");
-            return MsgResponse.success("获取成功",user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return MsgResponse.fail("获取失败");
-        }
+                return null;
+            return user;
     }
 
     /*---------上传头像--------*/
@@ -125,13 +123,13 @@ public class VideoUserController {
         if (res.getResult()) {
             //判断验证码
 //            session.setAttribute("ValidateCode","asd");
-            String randomCode = (String) session.getAttribute(ValidateCode.RANDOMCODEKEY);
-            if (!aCode.equalsIgnoreCase(randomCode)) {
-                //equalsIgnoreCase方法忽略大小写判断
-                res.setMessage("验证码错误");
-                res.setResult(false);
-                return res;
-            }
+//            String randomCode = (String) session.getAttribute(ValidateCode.RANDOMCODEKEY);
+//            if (!aCode.equalsIgnoreCase(randomCode)) {
+//                //equalsIgnoreCase方法忽略大小写判断
+//                res.setMessage("验证码错误");
+//                res.setResult(false);
+//                return res;
+//            }
             int messageCount = messageService.msgCount(res.getData().getUserId());
             System.out.println(messageCount);
             session.setAttribute("messageCount", "(" + messageCount + ")");
