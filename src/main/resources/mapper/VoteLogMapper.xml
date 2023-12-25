@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.video.mapper.VoteLogMapper">
+  <resultMap id="BaseResultMap" type="com.video.entity.TVoteLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="vote_id" jdbcType="BIGINT" property="voteId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="vote_time" jdbcType="TIMESTAMP" property="voteTime" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.video.entity.TVoteLog">
+    insert into t_vote_log (vote_id, user_id, answer, vote_time)
+    values (#{voteId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{answer,jdbcType=VARCHAR},
+            #{voteTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <select id="selectList" resultMap="BaseResultMap" parameterType="com.video.entity.TVoteLog">
+    select *
+    from t_vote_log
+    where 1=1
+    <if test="voteId != null">
+      and vote_id = #{voteId}
+    </if>
+    <if test="userId != null">
+      and user_id = #{userId}
+    </if>
+  </select>
+
+  <select id="getCountByVoteId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+    select count(*)
+    from t_vote_log
+      where vote_id = #{voteId}
+  </select>
+</mapper>

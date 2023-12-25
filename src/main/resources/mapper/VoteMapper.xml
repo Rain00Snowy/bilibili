@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.video.mapper.VoteMapper">
+  <resultMap id="BaseResultMap" type="com.video.entity.TVote">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="vote_name" jdbcType="VARCHAR" property="voteName" />
+    <result column="option_a" jdbcType="VARCHAR" property="optionA" />
+    <result column="option_b" jdbcType="VARCHAR" property="optionB" />
+    <result column="option_c" jdbcType="VARCHAR" property="optionC" />
+    <result column="option_d" jdbcType="VARCHAR" property="optionD" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_vote
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.video.entity.TVote">
+    insert into t_vote (vote_name, option_a, option_b, option_c, option_d, end_time,create_time)
+    values (#{voteName,jdbcType=VARCHAR}, #{optionA,jdbcType=VARCHAR}, #{optionB,jdbcType=VARCHAR}
+             , #{optionC,jdbcType=VARCHAR}, #{optionD,jdbcType=VARCHAR}, #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <select id="selectList" resultMap="BaseResultMap">
+    select *
+    from t_vote
+    where 1=1
+    <if test="voteName != null and voteName != ''">
+      and vote_name like concat('%',#{voteName}, '%')
+    </if>
+    order by end_time asc,create_time desc
+  </select>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select *
+    from t_vote
+    where id = #{id}
+  </select>
+</mapper>
