@@ -49,8 +49,8 @@ public class VideoUserController {
         return "更改成功";
     }
 
-    @RequestMapping("getUserById")
-    public MsgResponse getUserById(Long userId){
+    @RequestMapping("getUserById/{userId}")
+    public MsgResponse getUserById(@PathVariable Long userId){
         try {
             TUser user=userService.getUserByUserId(userId);
             if(user==null)
@@ -106,7 +106,8 @@ public class VideoUserController {
     /*----------用户注册-----------*/
     @RequestMapping("userRegister")
     @ResponseBody
-    public ResultDTO register(String userTel,String password) {
+    public ResultDTO register(@RequestParam String userTel,
+                              @RequestParam String password) {
         TUser user=new TUser();
         user.setUserTel(userTel);
         user.setPassword(password);
