@@ -106,10 +106,13 @@ public class VideoUserController {
     /*----------用户注册-----------*/
     @RequestMapping("userRegister")
     @ResponseBody
-    public ResultDTO register(TUser tUser) {
-        ResultDTO res = userService.register(tUser);
-        tUser.setStateId(1);
-        tUser.setFanNum(0);
+    public ResultDTO register(String userTel,String password) {
+        TUser user=new TUser();
+        user.setUserTel(userTel);
+        user.setPassword(password);
+        user.setStateId(1);
+        user.setFanNum(0);
+        ResultDTO res = userService.register(user);
         return res;
     }
 
