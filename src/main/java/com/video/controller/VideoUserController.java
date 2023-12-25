@@ -142,13 +142,13 @@ public class VideoUserController {
 
     /*----------获取验证码-----------*/
     @RequestMapping("getKey")
-    public void Img(HttpSession session, HttpServletResponse resp) {
+    public String Img(HttpSession session, HttpServletResponse resp) {
         resp.setContentType("image/jpeg");
         //设置响应头，不缓存这个响应的内容,确保每次请求都会得到一个新的验证码
         resp.setHeader("Pragma", "No-cache");
         //引用工具类中的方法，绘制验证码图片
         ValidateCode code = new ValidateCode();
-        code.getValidateCode(session, resp);//调用绘制验证码的方法，绘制图片
+        return code.getValidateCode(session);//调用绘制验证码的方法，绘制图片
     }
 
     @RequestMapping("updateLevel")

@@ -1,11 +1,8 @@
 package com.video.util;
 
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import javax.imageio.ImageIO;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -71,7 +68,7 @@ public class ValidateCode {
     }
 
     //核心方法：生成随机验证码，并返回
-    public void getValidateCode(HttpSession session, HttpServletResponse response) {
+    public String getValidateCode(HttpSession session) {
         BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();//产生Image对象的Graphics对象,改对象可以在图像上进行各种绘制操作
         g.fillRect(0, 0, width, height);
@@ -96,9 +93,10 @@ public class ValidateCode {
 
         g.dispose();//关闭窗体，释放资源
         try {
-            ImageIO.write(image, "JPEG", response.getOutputStream());//将内存中的图片通过流动形式输出到客户端
+            return Base64Util.imageToBase64(image, "PNG");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return randomString;
     }
 }

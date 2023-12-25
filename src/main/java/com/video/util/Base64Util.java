@@ -1,5 +1,10 @@
 package com.video.util;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -22,6 +27,13 @@ public class Base64Util {
             e.printStackTrace();
             return null;
         }
+    }
+    public static String imageToBase64(BufferedImage image, String format) throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, format, baos);
+        byte[] bytes = baos.toByteArray();
+
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     public static String videoToBase64(String videoPath) {
