@@ -330,7 +330,12 @@
 
     <update id="updateLevel">
         update t_user
-        set level = #{level}
+        set leelv = #{level}
+        where user_id = #{userId}
+    </update>
+    <update id="updateUserFans">
+        update t_user
+        set fan_num = fan_num + 1
         where user_id = #{userId}
     </update>
 </mapper>

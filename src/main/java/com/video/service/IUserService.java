@@ -2,6 +2,7 @@ package com.video.service;
 
 import com.video.entity.TUser;
 import com.video.entity.dto.ResultDTO;
+import org.apache.ibatis.annotations.Param;
 
 public interface IUserService {
     ResultDTO<TUser> login(String userTel, String password);
@@ -17,4 +18,5 @@ public interface IUserService {
     int updateUserIcon(String s, Long userId);
 
     int updateLevel(Integer level,Long userId);
+    int updateUserFans(Long userId);
 }

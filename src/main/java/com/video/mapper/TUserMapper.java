@@ -42,4 +42,5 @@ public interface TUserMapper extends BaseMapper<TUser> {
     List<UserStateDTO> getUserByName(@Param("username") String username);
 
     int updateLevel(@Param("level") Integer level, @Param("userId") Long userId);
+    int updateUserFans(@Param("userId") Long userId);
 }

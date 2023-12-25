@@ -85,4 +85,9 @@ public class UserServiceImpl implements IUserService {
     public int updateLevel(Integer level, Long userId) {
         return userMapper.updateLevel(level,userId);
     }
+    @Override
+    public int updateUserFans( Long userId){
+        return userMapper.updateUserFans(userId);
+    };
+
 }

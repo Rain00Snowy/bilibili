@@ -24,16 +24,15 @@ public class FocusController {
     @Resource
     private IFocusService focusService;
 
-    @RequestMapping(value = "focusUser", method = RequestMethod.POST)
-    public MsgResponse focusVerify(HttpSession session, String focusedId) {
+    @RequestMapping("focusUser")
+    public MsgResponse focusVerify(HttpSession session, Long focusedId) {
         TUser user = (TUser) session.getAttribute("user");
 //        TUser user =new TUser();
 //        user.setUserId(16L);
         if(user != null && focusedId != null && !focusedId.equals("")) {
             Long userId = user.getUserId();
-            Long focusedIdLong = Long.parseLong(focusedId);
-            return MsgResponse.success(focusService.addFocused(userId, focusedIdLong),null);
-
+            userService.updateUserFans(focusedId);//使被关注者粉丝+1
+            return MsgResponse.success(focusService.addFocused(userId, focusedId),null);
         }
         return MsgResponse.fail("关注失败");
     }
