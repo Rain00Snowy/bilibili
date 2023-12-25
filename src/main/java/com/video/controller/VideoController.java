@@ -112,16 +112,11 @@ public class VideoController {
             return "上传失败";
         }
     }
-    @RequestMapping("getVideoById")
-    private MsgResponse getVideoById(Long videoId){
-        try {
+    @RequestMapping("/getVideoById/{videoId}")
+    @ResponseBody
+    public TVideo getVideoById(@PathVariable Long videoId){
             TVideo video = videoService.getVideoByVideoId(videoId);
-
-            return MsgResponse.success("获取成功",video);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return MsgResponse.fail("获取失败");
-        }
+            return video;
     }
 
     /*---------上传视频--------*/
