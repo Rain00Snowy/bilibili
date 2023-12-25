@@ -164,8 +164,8 @@ public class VideoController {
         }
     }
 
-    @RequestMapping("getVideoImage")
-    public MsgResponse getVideoImage(Long videoId) throws IOException {
+    @RequestMapping("/getVideoImage/{videoId}")
+    public MsgResponse getVideoImage(@PathVariable Long videoId) throws IOException {
         try{
             String imgUrl=videoService.getVideoByVideoId(videoId).getThunmbnailUrl();
             return MsgResponse.success("获取成功",Base64Util.imageToBase64(imgUrl));
