@@ -66,14 +66,9 @@ public class VideoController {
         return indexLastVideo;
     }
 
-    @RequestMapping("getVideoListByUserId")
-    @ResponseBody
-    public MsgResponse getVideoListByUserId(Long userId) {
-        List<TVideo> videoList = videoService.getVideoListByUserId(userId);
-        if (videoList != null) {
-            return MsgResponse.success("success", videoList);
-        }
-        return MsgResponse.fail("fail");
+    @RequestMapping("/getVideoListByUserId/{userId}")
+    public List<TVideo> getVideoListByUserId(@PathVariable Long userId) {
+        return videoService.getVideoListByUserId(userId);
     }
 
     @RequestMapping("search")
@@ -88,7 +83,7 @@ public class VideoController {
     StringBuffer imageUrl=new StringBuffer();
     StringBuffer videoUrl=new StringBuffer();
             //提交视频
-    @RequestMapping( "uAddVideo")
+    @RequestMapping( "/uAddVideo")
     @ResponseBody
     public String uAddVideo(HttpSession session, @RequestParam String videoTitle,
                             @RequestParam String videoInfo, @RequestParam String typeName) {

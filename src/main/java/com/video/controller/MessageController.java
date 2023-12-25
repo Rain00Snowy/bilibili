@@ -11,10 +11,7 @@ import com.video.service.IUserService;
 import com.video.util.MsgResponse;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
@@ -35,15 +32,18 @@ public class MessageController {
     @Resource
     private IMessageService messageService;
 
+//    @PostMapping("/listMessages/{userId}")
+//    public List<TMessage> listMessageByUserId(@PathVariable Long userId){
+//        return messageService.listMessageByUserId(userId);
+//    }
+
     @RequestMapping("getMsgListByType")
     @ResponseBody
-    public MsgResponse getMsgListByType(HttpSession session,String msgTypeName) {
+    public MsgResponse getMsgListByType(@RequestParam Long userId,
+                                        @RequestParam String msgTypeName) {
 
-//        TUser user=new TUser();
-//        user.setUserId(12L);测试
-//        return MsgResponse.success("获取成功", messageService.findMsgByMsgType(user,msgTypeName));
-//
-        return MsgResponse.success("获取成功", messageService.findMsgByMsgType((TUser)session.getAttribute("user"),msgTypeName));
+        TUser user=userService.getUserByUserId(userId);
+        return MsgResponse.success("获取成功", messageService.findMsgByMsgType(user,msgTypeName));
     }
 
     @RequestMapping("delMsgById")

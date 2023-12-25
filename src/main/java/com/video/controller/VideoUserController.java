@@ -86,13 +86,11 @@ public class VideoUserController {
     }
 
     //    /*---------获取用户头像--------*/
-    @RequestMapping("getIcon")
-    public MsgResponse getIcon(HttpSession session){
+    @RequestMapping("/getIcon/{userId}")
+    public MsgResponse getIcon(@PathVariable Long userId){
         try {
-            TUser user = (TUser) session.getAttribute("user");
-//            TUser user = new TUser();
-            //测试
-//            user.setIconUrl("/static/uimages/icon23.png");
+            //修改了一点，通过用户id获取头像
+            TUser user =userService.getUserByUserId(userId);
             return MsgResponse.success("获取成功",Base64Util.imageToBase64(user.getIconUrl()));
         } catch (Exception e) {
             e.printStackTrace();
