@@ -126,7 +126,7 @@ public class VideoController {
         File newFile = new File(workplace + "/src/main/resources" + path);
         try {
             file.transferTo(newFile);
-            videoUrl=new StringBuffer("New Value");
+            videoUrl=new StringBuffer(path);
             System.out.println(videoUrl);
             return MsgResponse.success("上传成功",path);
         } catch (IOException e) {
