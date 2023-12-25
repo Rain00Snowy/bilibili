@@ -85,11 +85,13 @@ public class VideoController {
             //提交视频
     @RequestMapping( "/uAddVideo")
     @ResponseBody
-    public String uAddVideo(HttpSession session, @RequestParam String videoTitle,
-                            @RequestParam String videoInfo, @RequestParam String typeName) {
+    public String uAddVideo(@RequestParam Long userId,
+                            @RequestParam String videoTitle,
+                            @RequestParam String videoInfo,
+                            @RequestParam String typeName) {
 
         try {
-            TUser tUser = (TUser) session.getAttribute("user");
+            TUser tUser = userService.getUserByUserId(userId);
             TVideo video = new TVideo();
             video.setUser(tUser);
             TState state = stateService.getStateByStateId(5L);

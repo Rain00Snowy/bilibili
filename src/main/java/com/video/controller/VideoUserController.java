@@ -14,17 +14,10 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("user")
@@ -63,13 +56,14 @@ public class VideoUserController {
     /*---------上传头像--------*/
     @ResponseBody
     @RequestMapping("upload")
-    public MsgResponse upload(MultipartFile file, HttpSession session) {
+    public MsgResponse upload(@RequestParam MultipartFile file,
+                              @RequestParam Long userId) {
 
         try {
             String workplace = System.getProperty("user.dir");
             //获取文件后缀
             String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
-            TUser user = (TUser) session.getAttribute("user");
+            TUser user = userService.getUserByUserId(userId);
 //            TUser user =new TUser();测试
 //            user.setUserId(23L);
             String fileName = "icon" + user.getUserId() + suffix;
