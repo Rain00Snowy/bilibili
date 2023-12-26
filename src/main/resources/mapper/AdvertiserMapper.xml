@@ -2,7 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.video.mapper.AdvertiserMapper">
-    <select id="getAdvertiser" resultType="com.video.entity.Advertiser">
+    <resultMap id="BaseResultMap" type="com.video.entity.Advertiser">
+        <id column="advertiser_id" jdbcType="INTEGER" property="advertiser_id"/>
+        <result column="advertisement_id" jdbcType="INTEGER" property="advertisement_id"/>
+        <result column="money" jdbcType="INTEGER" property="money"/>
+
+    </resultMap>
+    <select id="getAdvertiser" resultMap="BaseResultMap">
         select *
         from advertiser
     </select>

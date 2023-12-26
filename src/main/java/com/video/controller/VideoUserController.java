@@ -84,6 +84,7 @@ public class VideoUserController {
         try {
             //修改了一点，通过用户id获取头像
             TUser user =userService.getUserByUserId(userId);
+            System.out.println(user);
             return MsgResponse.success("获取成功",Base64Util.imageToBase64(user.getIconUrl()));
         } catch (Exception e) {
             e.printStackTrace();
