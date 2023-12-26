@@ -1,6 +1,7 @@
 package com.video.util;
 
 
+import com.video.controller.VideoUserController;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
@@ -89,7 +90,9 @@ public class ValidateCode {
         //将生成的随机字符串装进Session作用域
         session.removeAttribute(RANDOMCODEKEY);
         session.setAttribute(RANDOMCODEKEY, randomString);
+        VideoUserController.edKey(randomString);
         System.out.println(randomString);//输出生成的随机字符串
+
 
         g.dispose();//关闭窗体，释放资源
         try {

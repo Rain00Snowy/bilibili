@@ -1,17 +1,12 @@
 package com.video.controller;
 
-import com.mysql.cj.Session;
 import com.video.entity.TUser;
-import com.video.entity.TVideo;
-import com.video.entity.TVote;
-import com.video.entity.TVoteLog;
 import com.video.entity.dto.ResultDTO;
 import com.video.service.*;
 import com.video.util.Base64Util;
 import com.video.util.MsgResponse;
 import com.video.util.ValidateCode;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +24,10 @@ public class VideoUserController {
     private IMessageService messageService;
 
 
+    static StringBuffer key =new StringBuffer();
+    static public void edKey(String s){
+        key=new StringBuffer(s);
+    }
     @RequestMapping("UEditorUser")
     public String UEditorUser(HttpSession session,
                               @RequestBody TUser tUser
@@ -110,18 +109,18 @@ public class VideoUserController {
     /*----------用户登录-----------*/
     @RequestMapping("userLogin")
     @ResponseBody
-    public ResultDTO login(String userTel, String password, String aCode, HttpSession session) {
+    public ResultDTO login( String userTel, String password,String aCode, HttpSession session) {
         ResultDTO<TUser> res = userService.login(userTel, password);
         if (res.getResult()) {
             //判断验证码
 //            session.setAttribute("ValidateCode","asd");
-//            String randomCode = (String) session.getAttribute(ValidateCode.RANDOMCODEKEY);
-//            if (!aCode.equalsIgnoreCase(randomCode)) {
-//                //equalsIgnoreCase方法忽略大小写判断
-//                res.setMessage("验证码错误");
-//                res.setResult(false);
-//                return res;
-//            }
+            String randomCode = key.toString();
+            if (!aCode.equalsIgnoreCase(randomCode)) {
+                //equalsIgnoreCase方法忽略大小写判断
+                res.setMessage("验证码错误");
+                res.setResult(false);
+                return res;
+            }
             int messageCount = messageService.msgCount(res.getData().getUserId());
             System.out.println(messageCount);
             session.setAttribute("messageCount", "(" + messageCount + ")");
