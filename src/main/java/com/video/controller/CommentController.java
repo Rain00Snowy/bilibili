@@ -20,6 +20,10 @@ public class CommentController {
 
     @Resource
     private CommentService commentService;
+    @Resource
+    private MessageController messageController;
+    @Resource
+    private VideoController videoController;
 
     //评论功能
     @RequestMapping(value = "sendComment")
@@ -38,6 +42,12 @@ public class CommentController {
             comment.setCommentInfo(commentInfo);
             comment.setCommentDate(new Date());
             commentService.insertComment(comment);
+            //评论的同时向被评论用户发送信息
+            messageController.addLetter(userId,
+                    "系统消息",
+                    "你的视频《"+videoController.getVideoById(videoId).getVideoTitle()+"》收到了一条评论:"+commentInfo,
+                    videoController.getVideoById(videoId).getUserId(),
+                    2l);
             return MsgResponse.success("评论成功", null);
 
         }catch (Exception e){
