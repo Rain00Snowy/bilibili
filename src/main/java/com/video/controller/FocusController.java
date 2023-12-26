@@ -22,6 +22,9 @@ public class FocusController {
     @Resource
     private IFocusService focusService;
 
+    @Resource
+    MessageController messageController;
+
     @RequestMapping("focusUser")
     @ResponseBody
     public MsgResponse focusVerify(@RequestParam Long fanId,
@@ -32,6 +35,12 @@ public class FocusController {
         if(fanId != null && focusedId != null && !focusedId.equals("")) {
 //            Long userId = user.getUserId();
             userService.updateUserFans(focusedId);//使被关注者粉丝+1
+            //发送关注消息
+            messageController.addLetter(fanId,
+                    "系统消息",
+                    "用户  "+userService.getUserByUserId(fanId).getUserName()+"  关注了你",
+                    focusedId,
+                    2l);
             return MsgResponse.success(focusService.addFocused(fanId, focusedId),null);
         }
         return MsgResponse.fail("关注失败");

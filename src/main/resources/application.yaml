@@ -1,5 +1,7 @@
 server:
-  port: 8090
+  port: 8083
+  servlet:
+    context-path: /milimili
 
 spring:
   servlet:
@@ -7,9 +9,9 @@ spring:
       max-file-size: 1024MB
       max-request-size: 1024MB
   datasource:
-    url: jdbc:mysql://localhost:3306/video?useSSL=false
+    url: jdbc:mysql://localhost:3306/video2?useSSL=false
     username: root
-    password: 951753ASDasd
+    password: zhou.1113
     hikari:
       maximum-pool-size: 30
       minimum-idle: 5

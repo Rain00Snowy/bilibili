@@ -32,7 +32,11 @@ public class AdminVideoController {
     @Resource
     private IVideoTypeService videoTypeService;
     private static String aVideoTitle;
-
+    //用来发消息的
+    @Resource
+    private MessageController messageController;
+    @Resource
+    private VideoController videoController;
 
     @RequestMapping("editVideo")
     public String editVideo(@RequestBody TVideo video) {
@@ -61,6 +65,12 @@ public class AdminVideoController {
     @GetMapping("upVideo")
     public String upVideo(Long id) {
         adminVideoService.upVideo(id);
+        //给用户发个视频审核通知
+        messageController.addLetter(videoController.getVideoById(id).getUserId(),
+                "系统消息",
+                "你的视频《"+videoController.getVideoById(id).getVideoTitle()+"》已通过审核。",
+                videoController.getVideoById(id).getUserId(),
+                2l);
         return "success";
     }
 
