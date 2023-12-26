@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @RequestMapping("comment")
-@Controller
+@RestController
 public class CommentController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/listCommentByVideoId/{videoId}")
-    public List getList(@PathVariable Long videoId){
+    public List<Comment> getList(@PathVariable Long videoId){
         List<Comment> list = commentService.getList(videoId);
         for (Comment comment : list) {
             List<Comment> child = commentService.selectByParentId(comment.getId());

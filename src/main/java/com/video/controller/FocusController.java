@@ -23,6 +23,7 @@ public class FocusController {
     private IFocusService focusService;
 
     @RequestMapping("focusUser")
+    @ResponseBody
     public MsgResponse focusVerify(@RequestParam Long fanId,
                                    @RequestParam Long focusedId) {
 //        TUser fan = userService.getUserByUserId(fanId);
