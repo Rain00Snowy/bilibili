@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class AdminAdServiceImpl implements IAdminAdService {
     @Resource
-    AdvertiserMapper advertiserMapper;
+    private AdvertiserMapper advertiserMapper;
     @Resource
     private TAdvertisementMapper advertisementMapper;
     @Override
