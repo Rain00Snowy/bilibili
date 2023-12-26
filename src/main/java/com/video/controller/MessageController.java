@@ -56,20 +56,20 @@ public class MessageController {
     }
 
     @RequestMapping("sendMsg")
-    public MsgResponse addLetter(HttpSession session, @RequestParam String msgTitle, @RequestParam String msgContext, @RequestParam Long receiveUserId, @RequestParam Long msgTypeId) {
-        TUser sendUser = (TUser) session.getAttribute("user");
-        TMessage msg = new TMessage();
-        String addMsg = null;
-        if(sendUser != null) {
+    public MsgResponse addLetter(@RequestParam Long userId,@RequestParam String msgTitle, @RequestParam String msgContext, @RequestParam Long receiveUserId, @RequestParam Long msgTypeId) {
+
+        try {
+            TMessage msg = new TMessage();
+            String addMsg = null;
             msg.setMsgTitle(msgTitle);
             msg.setMsgContext(msgContext);
-            msg.setSendUser(sendUser);
+            msg.setSendUser(userService.getUserByUserId(userId));
             TUser recieveUser = userService.getUserByUserId(receiveUserId);
-            if(recieveUser == null) {
+            if (recieveUser == null) {
                 addMsg = "接收用户为空";
-                return  MsgResponse.fail(addMsg);
+                return MsgResponse.fail(addMsg);
             }
-            if(recieveUser.getUserId().equals(sendUser.getUserId())) {
+            if (recieveUser.getUserId() == userId) {
                 return MsgResponse.fail("不可对自己私信");
             }
             msg.setReceiveUser(recieveUser);
@@ -79,8 +79,11 @@ public class MessageController {
             msg.setMsgState(msgState);
             addMsg = messageService.addMsg(msg);
             return MsgResponse.success(addMsg, null);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return MsgResponse.fail("失败");
+
         }
-        addMsg = "发送用户为空";
-        return MsgResponse.fail(addMsg);
     }
 }

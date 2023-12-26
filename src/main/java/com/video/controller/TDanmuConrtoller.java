@@ -4,9 +4,8 @@ import com.video.entity.TDanmu;
 import com.video.service.IDanmuService;
 import com.video.util.MsgResponse;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("danmu")
 
@@ -15,14 +14,12 @@ public class TDanmuConrtoller {
     @Resource
     IDanmuService iDanmuService;
     @RequestMapping("sendDanmu")
-    public MsgResponse sendDanmu(Long videoId,
-                                 String userName,
-                                 String danmuInfo){
+    public MsgResponse sendDanmu(TDanmu tDanmu){
         try {
-            TDanmu tDanmu=new TDanmu();
-            tDanmu.setDanmuInfo(danmuInfo);
-            tDanmu.setVideoId(videoId);
-            tDanmu.setUserName(userName);
+//            TDanmu tDanmu=new TDanmu();
+//            tDanmu.setDanmuInfo(danmuInfo);
+//            tDanmu.setVideoId(videoId);
+//            tDanmu.setUserName(userName);
             return MsgResponse.success("发送成功",iDanmuService.sendDanmu(tDanmu));
         }catch (Exception e){
             e.printStackTrace();

@@ -13,7 +13,7 @@ public class MsgTypeServiceImpl implements IMsgTypeService {
 
     @Override
     public TMsgtype findOneByMsgTypeId(Long msgTypeId) {
-        return msgTypeMapper.selectById(msgTypeId);
+        return msgTypeMapper.selectByPrimaryKey(msgTypeId);
     }
 
     @Override
