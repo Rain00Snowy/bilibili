@@ -71,8 +71,8 @@ public class VideoController {
         return videoService.getVideoListByUserId(userId);
     }
 
-    @RequestMapping("search")
-    public MsgResponse searchVideo(String videoTitle) {
+    @RequestMapping("/search/{videoTitle}")
+    public MsgResponse searchVideo(@PathVariable String videoTitle) {
         List<TVideo> videoList = videoService.queryByVideoTitle(videoTitle);
         if (videoList != null) {
             return MsgResponse.success("success", videoList);
