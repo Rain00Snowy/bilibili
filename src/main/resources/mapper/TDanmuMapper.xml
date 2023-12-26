@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.video.mapper.TDanmuMapper">
+    <resultMap id="BaseResultMap" type="com.video.entity.TDanmu">
+        <id column="danmu_id" jdbcType="BIGINT" property="danmuId" />
+        <result column="user_name" jdbcType="BIGINT" property="userName" />
+        <result column="video_id" jdbcType="BIGINT" property="videoId" />
+        <result column="danmu_info" jdbcType="REAL" property="danmuInfo" />
+    </resultMap>
+    <select id="getDanmuByVideoId" resultMap="BaseResultMap">
+        select * from t_danmu
+        where video_id = #{videoId,jdbcType=BIGINT}
+    </select>
+    <insert id="sendDanmu">
+        insert into t_danmu (video_id,danmu_info,user_name)
+        values (#{videoId},#{danmuInfo},#{userName})
+    </insert>
+</mapper>
