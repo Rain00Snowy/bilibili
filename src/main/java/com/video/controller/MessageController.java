@@ -45,13 +45,13 @@ public class MessageController {
         TUser user=userService.getUserByUserId(userId);
         return MsgResponse.success("获取成功", messageService.findMsgByMsgType(user,msgTypeName));
     }
-    @RequestMapping("delMsgById")
-    public MsgResponse delMsg(Long msgId) {
+    @RequestMapping("/delMsgById/{msgId}")
+    public MsgResponse delMsg(@PathVariable Long msgId) {
         return MsgResponse.success(messageService.deleteMsgById(msgId),null);
     }
 
-    @RequestMapping("readMsg")
-    public MsgResponse updateMsgState(Long msgId) {
+    @RequestMapping("/readMsg/{msgId}")
+    public MsgResponse updateMsgState(@PathVariable Long msgId) {
         return MsgResponse.success(messageService.updateReadMessage(msgId, 7L), null);
     }
 

@@ -10,10 +10,7 @@ import com.video.service.IAdminAdService;
 import com.video.util.Base64Util;
 import com.video.util.MsgResponse;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -91,7 +88,7 @@ public class AdminAdvertisementController {
          }
     }
     @RequestMapping("buyIdByUserId")
-    public MsgResponse updateStateIdByUserId(int buyerId,int money){
+    public MsgResponse updateStateIdByUserId(@RequestParam Long buyerId,@RequestParam int money){
             //获取现在广告主信息
             Advertiser advertiser=adminAdService.getAdvertiser();
             System.out.println(advertiser);
@@ -102,7 +99,7 @@ public class AdminAdvertisementController {
             //价高者得广告位
             if(advertiser.getMoney()<money){
                 System.out.println(AdId);
-                adminAdService.updateAdvertiser(AdId,buyerId,money,advertiser.getAdvertiser_id());
+                adminAdService.updateAdvertiser(AdId,buyerId.intValue(),money,advertiser.getAdvertiser_id());
                 advertiser=adminAdService.getAdvertiser();
                 System.out.println(advertiser);
                 return MsgResponse.success("购买成功",advertiser);
