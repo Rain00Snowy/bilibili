@@ -47,7 +47,7 @@ public class AdminVideoServiceImpl implements IAdminVideoService {
     public List<VideoInfoDTO> getiVideoByTitle(String videoTitle) {
         List<VideoInfoDTO> videoInfoDTOS = videoMapper.getiVideoByTitle(videoTitle);
         for (VideoInfoDTO videoInfoDTO : videoInfoDTOS) {
-            TUser tUser = userMapper.selectById(videoInfoDTO.getUserId());
+            TUser tUser = userMapper.selectByPrimaryKey(videoInfoDTO.getUserId());
             if(null != tUser){
                 videoInfoDTO.setUserName(tUser.getUserName());
             }
