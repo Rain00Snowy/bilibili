@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.video.mapper.TAdvertisementtypeMapper">
+    <resultMap id="BaseResultMap" type="com.video.entity.TAdvertisementtype">
+    <id column="advertisement_id" jdbcType="INTEGER" property="advertisementId" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    </resultMap>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select*
+        from t_advertisementtype
+        where advertiserment_id = #{typeId}
+    </select>
+
+</mapper>

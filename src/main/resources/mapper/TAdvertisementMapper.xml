@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.video.mapper.TAdvertisementMapper">
+    <resultMap id="adlist" type="com.video.entity.dto.AdDTO">
+        <id column="advertisement_id" jdbcType="INTEGER" property="advertisementId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="click" jdbcType="INTEGER" property="click"/>
+        <result column="type_id" jdbcType="INTEGER" property="typeId"/>
+        <result column="upload_time" jdbcType="TIMESTAMP" property="uploadTime"/>
+        <result column="advertiser_id" jdbcType="INTEGER" property="advertiserId"/>
+        <result column="state_id" jdbcType="INTEGER" property="stateId"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+
+        <association javaType="com.video.entity.TState" property="tState" column="state_id" select="com.video.mapper.TStateMapper.selectByPrimaryKey"/>
+        <association property="user" javaType="com.video.entity.TUser" column="advertiser_id" select="com.video.mapper.TUserMapper.selectByPrimaryKey" />
+<!--            <result column="state_name" jdbcType="VARCHAR" property="stateName"/>-->
+        <association property="advertisementtype" javaType="com.video.entity.TAdvertisementtype" column="type_id" select="com.video.mapper.TAdvertisementtypeMapper.selectByPrimaryKey" />
+    </resultMap>
+    <resultMap id="baseMap" type="com.video.entity.TAdvertisement">
+        <id property="advertisementId" column="advertisement_id"/>
+        <result property="name" column="name"/>
+        <result property="click" column="click"/>
+        <result property="typeId" column="type_id"/>
+        <result property="uploadTime" column="upload_time"/>
+        <result property="advertiserId" column="advertiser_id"/>
+        <result property="stateId" column="state_id"/>
+        <result property="url" column="url"/>
+    </resultMap>
+    <select id="adList" resultMap="adlist">
+        select *
+        from t_advertisement
+    </select>
+    <select id="getAdByName" resultMap="adlist">
+        SELECT t1.*
+        FROM t_advertisement t1
+        WHERE  t1.name like concat('%', #{name}, '%')
+    </select>
+    <select id="getAdById" resultMap="adlist">
+        select *
+        from t_advertisement where advertisement_id = #{id}
+    </select>
+    <update id="updateByPrimaryKeySelective" parameterType="com.video.entity.TAdvertisement">
+        update t_advertisement
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="typeId != null">
+               type_id = #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="stateId != null">
+                state_id = #{stateId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where advertisement_id = #{advertisementId,jdbcType=INTEGER}
+    </update>
+    <insert id="addAd" parameterType="com.video.entity.TAdvertisement">
+        insert into t_advertisement (
+        advertisement_id,
+        upload_time,
+        <if test="name != null">name,</if>
+        <if test="click != null">click,</if>
+        <if test="typeId != null">type_id,</if>
+        <if test="advertiserId != null">advertiser_id,</if>
+        state_id,
+        <if test="url != null">url</if>
+        ) values (
+        default,
+        now(),
+        <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+        <if test="click != null">#{click,jdbcType=INTEGER},</if>
+        <if test="typeId != null">#{typeId,jdbcType=INTEGER},</if>
+        <if test="advertiserId != null">#{advertiserId,jdbcType=INTEGER},</if>
+        5,
+        <if test="url != null">#{url,jdbcType=VARCHAR}</if>
+        )
+    </insert>
+    <select id="getAdByuserIdStateId" resultMap="baseMap">
+        select *
+        from t_advertisement
+        where advertiser_id=#{userId} and state_id=4
+    </select>
+    <update id="updateStateIdByUserId">
+        update t_advertisement
+        set state_id=4
+        where advertiser_id=#{id}
+    </update>
+    <update id="deleteAdByAdvertisementId">
+        update t_advertisement
+        set state_id=5
+        where advertisement_id = #{id}
+    </update>
+    <update id="restoreAdByAdvertisementId">
+        update t_advertisement
+        set state_id=4
+        where advertisement_id=#{id}
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_advertisement
+        where user_id = #{userId,jdbcType=BIGINT}
+    </delete>
+
+
+
+</mapper>

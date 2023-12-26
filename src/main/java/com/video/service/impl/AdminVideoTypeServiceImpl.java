@@ -3,6 +3,7 @@ package com.video.service.impl;
 import com.video.entity.TVideotype;
 import com.video.mapper.TVideotypeMapper;
 import com.video.service.IAdminVideoTypeService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @Service
 public class AdminVideoTypeServiceImpl implements IAdminVideoTypeService {
 
-    @Autowired
+    @Resource
     private TVideotypeMapper videotypeMapper;
     @Override
     public List<TVideotype> categoryList() {

@@ -9,6 +9,7 @@ import com.video.service.IAdminVideoService;
 import com.video.service.IMsgTypeService;
 import com.video.service.IStateService;
 import com.video.util.FileUtil;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +18,19 @@ import java.util.List;
 @Service
 public class AdminVideoServiceImpl implements IAdminVideoService {
 
-    @Autowired
+    @Resource
     private TVideoMapper videoMapper;
 
-    @Autowired
+    @Resource
     private IMsgTypeService msgTypeMService;
 
-    @Autowired
+    @Resource
     private IStateService stateService;
 
-    @Autowired
+    @Resource
     private TMessageMapper msgMapper;
 
-    @Autowired
+    @Resource
     private TUserMapper userMapper;
 
     @Override
@@ -69,51 +70,51 @@ public class AdminVideoServiceImpl implements IAdminVideoService {
         return videoMapper.getVideoById(id);
     }
 
-    @Override
-    public int restoreVideo(Long id) {
-        TMessage msg = new TMessage();
-        TVideo video = videoMapper.selectOneByVideoId(id);
-        msg.setMsgTitle("系统提醒");
-        msg.setMsgContext("你好！你的主题为《" + video.getVideoTitle() + "》的视频审核通过");
-        msg.setMsgType(msgTypeMService.findByTypeName("SystemMsg"));
-        msg.setMsgState(stateService.getStateByStateId(6L));
-        msg.setReceiveUser(video.getUser());
-        msgMapper.insertMsg(msg);
-        return videoMapper.restoreVideo(id);
-    }
-
-    @Override
-    public int deleteVideo(Long id) {
-        TMessage msg = new TMessage();
-        TVideo video = videoMapper.selectOneByVideoId(id);
-        msg.setMsgTitle("系统提醒");
-        msg.setMsgContext("你好！你的主题为《" + video.getVideoTitle() + "》的视频审核失败");
-        msg.setMsgType(msgTypeMService.findByTypeName("SystemMsg"));
-        msg.setMsgState(stateService.getStateByStateId(6L));
-        msg.setReceiveUser(video.getUser());
-        msgMapper.insertMsg(msg);
-        String videoPath = null;
-        if(video.getVideoUrl() != null) {
-            videoPath = "F:\\code\\design\\postDesign\\src\\main\\resources" + video.getVideoUrl();
-        }
-        String suffix = null;
-        String imagePath = "";
-        if(video.getThunmbnailUrl() != null) {
-            suffix = video.getThunmbnailUrl().substring(21);
-            imagePath = "F:\\code\\design\\postDesign\\src\\main\\resources\\static\\vimages\\" + suffix;
-        }
-        // 删除文件
-        try {
-            if(suffix != null && video.getVideoUrl() != null) {
-                FileUtil fileUtil = new FileUtil();
-                fileUtil.deleteAllFilesOfDir(fileUtil.getFile(videoPath));
-                fileUtil.deleteAllFilesOfDir(fileUtil.getFile(imagePath));
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return videoMapper.deleteByPrimaryKey(id);
-    }
+//    @Override
+//    public int restoreVideo(Long id) {
+//        TMessage msg = new TMessage();
+//        TVideo video = videoMapper.selectOneByVideoId(id);
+//        msg.setMsgTitle("系统提醒");
+//        msg.setMsgContext("你好！你的主题为《" + video.getVideoTitle() + "》的视频审核通过");
+//        msg.setMsgType(msgTypeMService.findByTypeName("SystemMsg"));
+//        msg.setMsgState(stateService.getStateByStateId(6L));
+//        msg.setReceiveUser(video.getUser());
+//        msgMapper.insertMsg(msg);
+//        return videoMapper.restoreVideo(id);
+//    }
+//
+//    @Override
+//    public int deleteVideo(Long id) {
+//        TMessage msg = new TMessage();
+//        TVideo video = videoMapper.selectOneByVideoId(id);
+//        msg.setMsgTitle("系统提醒");
+//        msg.setMsgContext("你好！你的主题为《" + video.getVideoTitle() + "》的视频审核失败");
+//        msg.setMsgType(msgTypeMService.findByTypeName("SystemMsg"));
+//        msg.setMsgState(stateService.getStateByStateId(6L));
+//        msg.setReceiveUser(video.getUser());
+//        msgMapper.insertMsg(msg);
+//        String videoPath = null;
+//        if(video.getVideoUrl() != null) {
+//            videoPath = "F:\\code\\design\\postDesign\\src\\main\\resources" + video.getVideoUrl();
+//        }
+//        String suffix = null;
+//        String imagePath = "";
+//        if(video.getThunmbnailUrl() != null) {
+//            suffix = video.getThunmbnailUrl().substring(21);
+//            imagePath = "F:\\code\\design\\postDesign\\src\\main\\resources\\static\\vimages\\" + suffix;
+//        }
+//        // 删除文件
+//        try {
+//            if(suffix != null && video.getVideoUrl() != null) {
+//                FileUtil fileUtil = new FileUtil();
+//                fileUtil.deleteAllFilesOfDir(fileUtil.getFile(videoPath));
+//                fileUtil.deleteAllFilesOfDir(fileUtil.getFile(imagePath));
+//            }
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return videoMapper.deleteByPrimaryKey(id);
+//    }
 
     @Override
     public int rdeleteVideo(Long id) {
@@ -145,7 +146,7 @@ public class AdminVideoServiceImpl implements IAdminVideoService {
     public List<VideoInfoDTO> videoList() {
         List<VideoInfoDTO> videoInfoDTOS = videoMapper.videoList();
         for (VideoInfoDTO videoInfoDTO : videoInfoDTOS) {
-            TUser tUser = userMapper.selectById(videoInfoDTO.getUserId());
+            TUser tUser = userMapper.selectByPrimaryKey(videoInfoDTO.getUserId());
             if(null != tUser){
                 videoInfoDTO.setUserName(tUser.getUserName());
             }

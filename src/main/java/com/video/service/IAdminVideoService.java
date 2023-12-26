@@ -18,9 +18,9 @@ public interface IAdminVideoService {
 
     List<VideoInfoDTO> underVideoList();
 
-    int deleteVideo(Long id);
-
-    int restoreVideo(Long id);
+//    int deleteVideo(Long id);
+//
+//    int restoreVideo(Long id);
 
     VideoInfoDTO getVideoById(Long id);
 

@@ -5,6 +5,7 @@ import com.video.entity.TUser;
 import com.video.entity.dto.UserStateDTO;
 import com.video.mapper.*;
 import com.video.service.IAdminUserService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +15,22 @@ import java.util.List;
 @Service
 public class AdminUserServiceImpl implements IAdminUserService {
 
-    @Autowired
+    @Resource
     private TUserMapper userMapper;
 
-    @Autowired
+    @Resource
     private AdminMapper adminMapper;
 
-    @Autowired
+    @Resource
     private TVideoMapper videoMapper;
 
-    @Autowired
+    @Resource
     private TCollectionMapper collectionMapper;
 
-    @Autowired
+    @Resource
     private TRecordMapper recordMapper;
+    @Resource
+    private TAdvertisementMapper advertisementMapper;
 
 
     @Override
@@ -41,13 +44,13 @@ public class AdminUserServiceImpl implements IAdminUserService {
     }
 
     @Override
-    public void editUser(TUser tUser) {
-        userMapper.updateById(tUser);
+    public void editUser(TUser tUser){
+        userMapper.updateUserByUserId(tUser);
     }
 
     @Override
     public void deleteUser(Long id) {
-        userMapper.deleteById(id);
+        userMapper.deleteByPrimaryKey(id);
         videoMapper.deleteByUserId(id);
         collectionMapper.deleteByUserId(id);
         recordMapper.deleteByUserId(id);
@@ -64,14 +67,6 @@ public class AdminUserServiceImpl implements IAdminUserService {
         return userMapper.getUserByName(username);
     }
 
-    @Override
-    public void addUser(TUser tUser) {
-        tUser.setRegisterDate(new Date());
-        tUser.setIconUrl("/user/getIcon/icon1.jpg");
-        tUser.setStateId(1);
-        tUser.setFanNum(0);
-        userMapper.insertSelective(tUser);
-    }
 
 
 }

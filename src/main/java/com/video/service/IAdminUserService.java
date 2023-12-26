@@ -15,7 +15,6 @@ public interface IAdminUserService {
 
     void deleteUser(Long id);
 
-    void addUser(TUser tUser);
 
     Admin login(Admin admin);
 
