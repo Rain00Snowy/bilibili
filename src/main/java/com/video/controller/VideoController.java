@@ -45,9 +45,9 @@ public class VideoController {
     private CommentService commentService;
 
 
-    @RequestMapping("getVideoByType")
-    @ResponseBody
-    public List<TVideo> getVideoByType(Long videoTypeId) {
+    @RequestMapping("/getVideoByType/{videoTypeId}")
+//    @ResponseBody
+    public List<TVideo> getVideoByType(@PathVariable Long videoTypeId) {
         return videoService.getVideoByVideoTypeId(videoTypeId);
     }
 
@@ -208,15 +208,15 @@ public class VideoController {
                 video.setVideoType(videoType);
 //                session.setAttribute("curVideo", video);
                 //判断会员等级和上传人员
-                int videoLevel = video.getLevel();
-                Long userId = video.getUserId();
-                //不是上传人再判断等级限制
-                if(!tmpUser.getUserId().equals(userId)){
-                    if(tmpUser.getLevel() < videoLevel){
-                        //等级限制不能看
-                        return MsgResponse.fail("等级不够");
-                    }
-                }
+//                int videoLevel = video.getLevel();
+//                Long userId = video.getUserId();
+//                //不是上传人再判断等级限制
+//                if(!tmpUser.getUserId().equals(userId)){
+//                    if(tmpUser.getLevel() < videoLevel){
+//                        //等级限制不能看
+//                        return MsgResponse.fail("等级不够");
+//                    }
+//                }
                 // 增加观看次数
                 String result = videoService.addViewSum(videoId);
                 // 添加观看记录
