@@ -168,12 +168,10 @@ public class VideoController {
         }
     }
 //获取推荐表中的视频
-    @RequestMapping("getRecommendVideo")
-    @ResponseBody
-    public MsgResponse getRecommendVideo(HttpServletRequest request) {
-        TUser user = (TUser) request.getSession().getAttribute("user");
+    @RequestMapping("/getRecommendVideo/{userId}")
+    public MsgResponse getRecommendVideo(@PathVariable Long userId) {
         try{
-            return MsgResponse.success("获取成功",videoService.getRecommendVideo(1, 6, user.getUserId()));
+            return MsgResponse.success("获取成功",videoService.getRecommendVideo(1, 6, userId));
         }catch (Exception e)
         {
             e.printStackTrace();
