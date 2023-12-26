@@ -83,4 +83,9 @@
       focused_id = #{focusedId,jdbcType=BIGINT}
     where focus_id = #{focusId,jdbcType=BIGINT}
   </update>
+  <select id="isFocused">
+    select *
+    from t_focus
+    where focus_id = #{focusId,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
+  </select>
 </mapper>

@@ -71,4 +71,9 @@ public class FocusController {
             return MsgResponse.fail("参数错误");
         }
     }
+    @RequestMapping("/isFocused")
+    public Boolean isFocused(@PathVariable Long userId,@PathVariable Long focusedId) {
+
+        return focusService.isFocused(userId,focusedId);
+    }
 }

@@ -3,6 +3,7 @@ package com.video.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.video.entity.TFocus;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,5 +27,7 @@ public interface TFocusMapper extends BaseMapper<TFocus> {
 
     List<Long> selectFocusedsId(Long userId);
     List<Long> selectFansId(Long userId);
+
+    TFocus isFocused(@Param("userId") Long userId, @Param("focusedId") Long focusedId);
 
 }

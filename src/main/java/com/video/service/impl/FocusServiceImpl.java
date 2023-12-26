@@ -1,5 +1,6 @@
 package com.video.service.impl;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.video.entity.TFocus;
 import com.video.mapper.TFocusMapper;
 import com.video.service.IFocusService;
@@ -56,6 +57,11 @@ public class FocusServiceImpl implements IFocusService {
         }
         return "已关注";
     }
-
+    @Override
+    public Boolean isFocused(Long userId, Long focusedId){
+        if(focusMapper.isFocused(userId,focusedId)==null)
+            return false;
+        else return true;
+    };
 
 }
