@@ -56,20 +56,25 @@ public class MessageController {
     }
 
     @RequestMapping("sendMsg")
-    public MsgResponse addLetter(@RequestParam Long userId,@RequestParam String msgTitle, @RequestParam String msgContext, @RequestParam Long receiveUserId, @RequestParam Long msgTypeId) {
-
-        try {
-            TMessage msg = new TMessage();
-            String addMsg = null;
+    public MsgResponse addLetter(@RequestParam Long userId,
+                                 @RequestParam String msgTitle,
+                                 @RequestParam String msgContext,
+                                 @RequestParam Long receiveUserId,
+                                 @RequestParam Long msgTypeId) {
+//        TUser sendUser = (TUser) session.getAttribute("user");
+        TUser sendUser=userService.getUserByUserId(userId);
+        TMessage msg = new TMessage();
+        String addMsg = null;
+        if(sendUser != null) {
             msg.setMsgTitle(msgTitle);
             msg.setMsgContext(msgContext);
-            msg.setSendUser(userService.getUserByUserId(userId));
+            msg.setSendUser(sendUser);
             TUser recieveUser = userService.getUserByUserId(receiveUserId);
-            if (recieveUser == null) {
+            if(recieveUser == null) {
                 addMsg = "接收用户为空";
-                return MsgResponse.fail(addMsg);
+                return  MsgResponse.fail(addMsg);
             }
-            if (recieveUser.getUserId() == userId) {
+            if(recieveUser.getUserId().equals(sendUser.getUserId())) {
                 return MsgResponse.fail("不可对自己私信");
             }
             msg.setReceiveUser(recieveUser);
@@ -79,11 +84,8 @@ public class MessageController {
             msg.setMsgState(msgState);
             addMsg = messageService.addMsg(msg);
             return MsgResponse.success(addMsg, null);
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-            return MsgResponse.fail("失败");
-
         }
+        addMsg = "发送用户为空";
+        return MsgResponse.fail(addMsg);
     }
 }
