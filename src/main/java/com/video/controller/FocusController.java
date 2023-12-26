@@ -72,7 +72,7 @@ public class FocusController {
         }
     }
     @RequestMapping("/isFocused")
-    public Boolean isFocused(@PathVariable Long userId,@PathVariable Long focusedId) {
+    public Boolean isFocused( Long userId, Long focusedId) {
 
         return focusService.isFocused(userId,focusedId);
     }

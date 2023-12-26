@@ -1,7 +1,5 @@
 package com.video.service;
 
-import com.video.entity.TFocus;
-
 import java.util.List;
 
 public interface IFocusService {
@@ -13,6 +11,6 @@ public interface IFocusService {
 
     List<Long> getUserFansList(Long userId);
 
-    Boolean isFocused(Long userId,Long focusedId);
+    boolean isFocused(Long userId, Long focusedId);
 
 }
