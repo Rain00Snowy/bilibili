@@ -7,7 +7,7 @@ import java.util.List;
 public interface IRecordService {
     String addRecord(Long userId, Long videoId);
 
-    List<TVideo> getAllRecord(Long userId);
+    List<TVideo> getAllRecordById(Long userId);
 
     String deleteRecordById(Long userId, Long videoId);
 }

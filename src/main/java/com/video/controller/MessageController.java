@@ -36,16 +36,15 @@ public class MessageController {
 //    public List<TMessage> listMessageByUserId(@PathVariable Long userId){
 //        return messageService.listMessageByUserId(userId);
 //    }
-
     @RequestMapping("getMsgListByType")
     @ResponseBody
+    //TypeName传ALL 表示所有信息
     public MsgResponse getMsgListByType(@RequestParam Long userId,
                                         @RequestParam String msgTypeName) {
 
         TUser user=userService.getUserByUserId(userId);
         return MsgResponse.success("获取成功", messageService.findMsgByMsgType(user,msgTypeName));
     }
-
     @RequestMapping("delMsgById")
     public MsgResponse delMsg(Long msgId) {
         return MsgResponse.success(messageService.deleteMsgById(msgId),null);

@@ -34,7 +34,8 @@
             SELECT r.video_id from t_record r
             where r.user_id = #{userId}
         ) and v.video_state_id = 4
-        GROUP BY v.edit_date DESC
+        GROUP BY v.edit_date
+        ORDER BY v.edit_date DESC;
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
